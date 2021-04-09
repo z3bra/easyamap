@@ -183,7 +183,7 @@
                       #}{% if purchase[available[id].id_product_distribution] is defined and purchase[available[id].id_product_distribution] != 0 %} bg-danger{% endif %}{#
                       #}{% if product.isSubscription and user_list is null%} subscription{% endif %}{#
                       #}" min="0"{#
-                      #} max="{% if available[id].max_per_user is not null %}{{ available[id].max_per_user }}{% else %}999{% endif %}" {#
+                      #} max="{% if "now"|date('Ymd') >= date|date('Ymd') %}{% elseif available[id].max_per_user is not null %}{{ available[id].max_per_user }}{% else %}999{% endif %}" {#
                       #} name="{{ available[id].id_product_distribution }}" {# data-toggle="tooltip" data-placement="bottom" data-html="true" title="{{ jours[date|date("w")]~' '~date|date("d")~' '~mois[date|date("n")]~'<br />'~product.label~' '~product.unit~'<br />'~available[id].price|number_format(2,',',' ')~' €' }}" #}{#
                       #} value="{% if purchase[available[id].id_product_distribution] is defined and purchase[available[id].id_product_distribution] != 0 %}{{ purchase[available[id].id_product_distribution] }}{% endif %}"  />              
               {% endif %}
