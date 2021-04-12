@@ -9,12 +9,18 @@
   <div class="col-md-6 col-md-offset-3 filterable">
 
     <details open>
-    <summary class="page-header">Contrats ouverts</summary>
+    <summary class="page-header">Contrats en cours</summary>
     {% set hasOccurence = false %}
-    {% for contract in contracts %}
+    {% for contract in contracts %} {# Open contracts first #}
       {% if contract.isActive %}
         {% set hasOccurence = true %}
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'L', 'style':'success', 'filled':filled}%}  
+      {% endif %}
+    {% endfor %}
+    {% for contract in contracts %} {# Then closed, ongoing contracts #}
+      {% if not contract.isActive and contract.isArchive and date(contract.lastDistribution) >= date('today') %}
+        {% set hasOccurence = true %}
+        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'L', 'style':'default', 'filled':filled}%}  
       {% endif %}
     {% endfor %}
     </details>
@@ -22,36 +28,6 @@
     <p class="text-muted">Pas de contrat ouvert.</p>
     {% endif %}
 
-    <details open>
-    <summary class="page-header">Contrats en cours</summary>
-    {% set hasOccurence = false %}
-    {% for contract in contracts %}
-      {% if not contract.isActive and contract.isArchive and date(contract.lastDistribution) >= date('today') %}
-        {% set hasOccurence = true %}
-        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
-      {% endif %}
-    {% endfor %}
-    {% if hasOccurence %}
-    <p class="text-muted">Veuillez contacter les référents de ce(s) contrat(s) pour toute souscription</p>
-    {% endif %}
-    </details>
-    {% if not hasOccurence %}
-    <p class="text-muted">Pas de contrat archivé.</p>
-    {% endif %}
-
-    <details>
-    <summary class="page-header">Contrats fermés</summary>
-    {% set hasOccurence = false %}
-    {% for contract in contracts %}
-      {% if not contract.isActive and not contract.isArchive %}
-        {% set hasOccurence = true %}
-        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
-      {% endif %}
-    {% endfor %}
-    </details>
-    {% if not hasOccurence %}
-    <p class="text-muted">Pas de contrat à venir.</p>
-    {% endif %}
 
     <details>
     <summary class="page-header">Archives</summary>
@@ -65,6 +41,21 @@
     </details>
     {% if not hasOccurence %}
     <p class="text-muted">Pas de contrat archivé.</p>
+    {% endif %}
+
+
+    <details>
+    <summary class="page-header">Contrats fermés</summary>
+    {% set hasOccurence = false %}
+    {% for contract in contracts %}
+      {% if not contract.isActive and not contract.isArchive %}
+        {% set hasOccurence = true %}
+        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
+      {% endif %}
+    {% endfor %}
+    </details>
+    {% if not hasOccurence %}
+    <p class="text-muted">Pas de contrat à venir.</p>
     {% endif %}
 
 
