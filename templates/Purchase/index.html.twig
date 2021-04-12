@@ -17,10 +17,10 @@
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'L', 'style':'success', 'filled':filled}%}  
       {% endif %}
     {% endfor %}
+    </details>
     {% if not hasOccurence %}
     <p class="text-muted">Pas de contrat ouvert.</p>
     {% endif %}
-    </details>
 
     <details open>
     <summary class="page-header">Contrats en cours</summary>
@@ -31,12 +31,13 @@
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'L', 'style':'default', 'filled':filled}%}  
       {% endif %}
     {% endfor %}
-    {% if not hasOccurence %}
-    <p class="text-muted">Pas de contrat en cours.</p>
-    {% else %}
+    {% if hasOccurence %}
     <p class="text-muted">Veuillez contacter les référents de chaque contrat pour y souscrire.</p>
     {% endif %}
     </details>
+    {% if not hasOccurence %}
+    <p class="text-muted">Pas de contrat en cours.</p>
+    {% endif %}
 
     <details>
     <summary class="page-header">Archives</summary>
@@ -47,10 +48,10 @@
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
       {% endif %}
     {% endfor %}
+    </details>
     {% if not hasOccurence %}
     <p class="text-muted">Pas de contrat archivé.</p>
     {% endif %}
-    </details>
 
     <details>
     <summary class="page-header">Contrats à venir</summary>
@@ -61,10 +62,10 @@
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
       {% endif %}
     {% endfor %}
+    </details>
     {% if not hasOccurence %}
     <p class="text-muted">Pas de contrat à venir.</p>
     {% endif %}
-    </details>
 
   </div>
   
