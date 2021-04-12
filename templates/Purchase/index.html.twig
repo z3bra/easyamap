@@ -7,7 +7,9 @@
 
     
   <div class="col-md-6 col-md-offset-3 filterable">
-    <div class="page-header">Contrats en cours</div>
+
+    <details open>
+    <summary class="page-header">Contrats ouverts</summary>
     {% set hasOccurence = false %}
     {% for contract in contracts %}
       {% if contract.isActive %}
@@ -16,25 +18,31 @@
       {% endif %}
     {% endfor %}
     {% if not hasOccurence %}
-    <p class="text-muted">Pas de contrat en cours.</p>
+    <p class="text-muted">Pas de contrat ouvert.</p>
     {% endif %}
+    </details>
 
-    <div class="page-header">En cours</div>
+    <details open>
+    <summary class="page-header">Contrats en cours</summary>
     {% set hasOccurence = false %}
     {% for contract in contracts %}
-      {% if not contract.isActive and contract.lastDistribution >= date('now') %}
+      {% if not contract.isActive and contract.isArchive and date(contract.lastDistribution) >= date('today') %}
         {% set hasOccurence = true %}
-        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
+        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'L', 'style':'default', 'filled':filled}%}  
       {% endif %}
     {% endfor %}
     {% if not hasOccurence %}
     <p class="text-muted">Pas de contrat en cours.</p>
+    {% else %}
+    <p class="text-muted">Veuillez contacter les référents de chaque contrat pour y souscrire.</p>
     {% endif %}
+    </details>
 
-    <div class="page-header">Archives</div>
+    <details>
+    <summary class="page-header">Archives</summary>
     {% set hasOccurence = false %}
     {% for contract in contracts %}
-      {% if not contract.isActive and contract.isArchive contract.lastDistribution < date('now') %}
+      {% if not contract.isActive and date(contract.lastDistribution) < date('today') %}
         {% set hasOccurence = true %}
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
       {% endif %}
@@ -42,8 +50,10 @@
     {% if not hasOccurence %}
     <p class="text-muted">Pas de contrat archivé.</p>
     {% endif %}
+    </details>
 
-    <div class="page-header">Contrats fermés</div>
+    <details>
+    <summary class="page-header">Contrats à venir</summary>
     {% set hasOccurence = false %}
     {% for contract in contracts %}
       {% if not contract.isActive and not contract.isArchive %}
@@ -52,8 +62,10 @@
       {% endif %}
     {% endfor %}
     {% if not hasOccurence %}
-    <p class="text-muted">Pas de contrat fermé.</p>
+    <p class="text-muted">Pas de contrat à venir.</p>
     {% endif %}
+    </details>
+
   </div>
   
     <div class="col-md-3">
