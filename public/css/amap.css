@@ -136,6 +136,12 @@ p.bg-info {
 .page-header {
     margin-top:15px;
 }
+details > summary.page-header::before {
+    content: '▶️';
+}
+details[open] > summary.page-header::before {
+    content: '🔽';
+}
 /*   FORMULAIRE d'AUTHENTIFICATION      */
 
 .form-signin {
