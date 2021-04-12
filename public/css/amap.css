@@ -136,6 +136,9 @@ p.bg-info {
 .page-header {
     margin-top:15px;
 }
+summary.page-header {
+    display: list-item;
+}
 /*   FORMULAIRE d'AUTHENTIFICATION      */
 
 .form-signin {
