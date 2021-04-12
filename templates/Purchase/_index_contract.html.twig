@@ -4,7 +4,9 @@
     #}class="btn btn-{{ style }}{% if size=='L' %} btn-lg{% endif %} btn-xl">{#
 #}{% if filled[contract.idContract] is defined %}<div class="pull-left"><span data-toggle="tooltip" data-placement="bottom" title="Commande passée" class="glyphicon glyphicon-check"></span></div>{% endif %}{#
 #}{{ contract.label }}{#
-#}{% if contract.fillDateEnd is not empty %}{#
+#}{% if contract.fillDateEnd is not empty and date(contract.fillDateEnd)>=date('now') %}{#
 #}<br /><small{% if style=='success' and date(contract.fillDateEnd)<date('+3days') %} class="label label-warning" style="border-radius:10px;"> <span class="glyphicon glyphicon-alert"></span> {% else %}>{% endif %}Date limite : {{ contract.fillDateEnd|full_date_fr2 }}</small>{#
+#}{% else %}{#
+#}<br /><small>Clôture : {{ contract.lastDistribution|full_date_fr2 }}</small>{#
 #}{% endif %}{#
 #}</a>
