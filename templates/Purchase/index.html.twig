@@ -19,10 +19,22 @@
     <p class="text-muted">Pas de contrat en cours.</p>
     {% endif %}
 
+    <div class="page-header">En cours</div>
+    {% set hasOccurence = false %}
+    {% for contract in contracts %}
+      {% if not contract.isActive and contract.lastDistribution >= date('now') %}
+        {% set hasOccurence = true %}
+        {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
+      {% endif %}
+    {% endfor %}
+    {% if not hasOccurence %}
+    <p class="text-muted">Pas de contrat en cours.</p>
+    {% endif %}
+
     <div class="page-header">Archives</div>
     {% set hasOccurence = false %}
     {% for contract in contracts %}
-      {% if not contract.isActive and contract.isArchive %}
+      {% if not contract.isActive and contract.isArchive contract.lastDistribution < date('now') %}
         {% set hasOccurence = true %}
         {% include 'Purchase/_index_contract.html.twig' with {'contract':contract, 'size':'M', 'style':'default', 'filled':filled}%}  
       {% endif %}
